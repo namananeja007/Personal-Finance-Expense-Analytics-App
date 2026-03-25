@@ -35,6 +35,13 @@ export const FinanceProvider = ({ children }) => {
     setTransactions(prev => prev.filter(t => t.id !== id));
   };
 
+  const resetApp = () => {
+    setTransactions([]);
+    setBudget(null);
+    localStorage.removeItem('finance_budget');
+    localStorage.removeItem('finance_transactions');
+  };
+
   return (
     <FinanceContext.Provider value={{
       transactions,
@@ -42,7 +49,8 @@ export const FinanceProvider = ({ children }) => {
       setBudget,
       addTransaction,
       updateTransaction,
-      deleteTransaction
+      deleteTransaction,
+      resetApp
     }}>
       {children}
     </FinanceContext.Provider>

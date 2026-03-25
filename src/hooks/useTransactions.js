@@ -2,7 +2,7 @@ import { useContext, useMemo } from 'react';
 import { FinanceContext } from '../context/FinanceContext';
 
 const useTransactions = (searchQuery = '', filterType = 'all', filterCategory = 'all', sortBy = 'date') => {
-  const { transactions, addTransaction, updateTransaction, deleteTransaction } = useContext(FinanceContext);
+  const { transactions, addTransaction, updateTransaction, deleteTransaction, resetApp } = useContext(FinanceContext);
 
   const filteredAndSortedTransactions = useMemo(() => {
     let result = [...transactions];
@@ -71,6 +71,7 @@ const useTransactions = (searchQuery = '', filterType = 'all', filterCategory = 
     addTransaction,
     updateTransaction,
     deleteTransaction,
+    resetApp,
     totalIncome,
     totalExpenses,
     netBalance,

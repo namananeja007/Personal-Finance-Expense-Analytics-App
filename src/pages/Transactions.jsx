@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { MdAdd, MdFileDownload } from 'react-icons/md';
+import { MdAdd, MdFileDownload, MdRefresh } from 'react-icons/md';
 import TransactionCard from '../components/TransactionCard';
 import useTransactions from '../hooks/useTransactions';
 import useDebounce from '../hooks/useDebounce';
@@ -17,6 +17,13 @@ const Transactions = () => {
   const { transactions, deleteTransaction } = useTransactions(
     debouncedSearch, typeFilter, categoryFilter, sortBy
   );
+
+  const resetFilters = () => {
+    setSearch('');
+    setTypeFilter('all');
+    setCategoryFilter('all');
+    setSortBy('date');
+  };
 
   const exportToCSV = () => {
     const headers = ['Title', 'Amount', 'Date', 'Type', 'Category', 'Notes'];
@@ -54,7 +61,15 @@ const Transactions = () => {
       </div>
 
       <div className="card mb-4">
-        <div className="grid-dashboard" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))' }}>
+        <div className="flex-between mb-2">
+          <h3 className="m-0 text-muted">Filter & Sort</h3>
+          {(search || typeFilter !== 'all' || categoryFilter !== 'all' || sortBy !== 'date') && (
+            <button className="btn-icon text-muted" onClick={resetFilters} title="Reset Filters" style={{ fontSize: '0.85rem', display: 'flex', gap: '4px', alignItems: 'center' }}>
+              <MdRefresh size={16} /> Reset
+            </button>
+          )}
+        </div>
+        <div className="grid-dashboard" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', marginBottom: 0 }}>
           <div className="form-group mb-0">
             <label>Search</label>
             <input 
