@@ -44,7 +44,6 @@ export const ExpensePieChart = ({ transactions }) => {
     </ResponsiveContainer>
   );
 };
-
 export const IncomeVsExpenseChart = ({ transactions }) => {
   const data = useMemo(() => {
     // Group by month

@@ -10,7 +10,7 @@ const Analytics = () => {
       <h1>Analytics</h1>
       
       <div className="grid-2">
-        <div className="card" style={{ gridColumn: 'span 2' }}>
+        <div className="card col-span-2">
           <h2>Income vs Expense (Monthly)</h2>
           <IncomeVsExpenseChart transactions={allTransactions} />
         </div>

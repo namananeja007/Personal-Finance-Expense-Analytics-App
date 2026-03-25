@@ -58,7 +58,7 @@ const AddTransaction = () => {
         <form onSubmit={handleSubmit(onSubmit)}>
           
           <div className="grid-2">
-            <div className="form-group" style={{ gridColumn: 'span 2' }}>
+            <div className="form-group col-span-2">
               <label>Type</label>
               <div className="flex-center gap-4">
                 <label className="flex-center gap-2" style={{ cursor: 'pointer' }}>
@@ -72,7 +72,7 @@ const AddTransaction = () => {
               </div>
             </div>
 
-            <div className="form-group" style={{ gridColumn: 'span 2' }}>
+            <div className="form-group col-span-2">
               <label>Title</label>
               <input type="text" className="input-base" placeholder="e.g., Groceries" {...register('title')} />
               {errors.title && <p className="error-text">{errors.title.message}</p>}
@@ -90,7 +90,7 @@ const AddTransaction = () => {
               {errors.date && <p className="error-text">{errors.date.message}</p>}
             </div>
 
-            <div className="form-group" style={{ gridColumn: 'span 2' }}>
+            <div className="form-group col-span-2">
               <label>Category</label>
               <select className="input-base" {...register('category')}>
                 <option value="">Select Category...</option>
@@ -99,12 +99,12 @@ const AddTransaction = () => {
               {errors.category && <p className="error-text">{errors.category.message}</p>}
             </div>
 
-            <div className="form-group" style={{ gridColumn: 'span 2' }}>
+            <div className="form-group col-span-2">
               <label>Notes (Optional)</label>
               <textarea className="input-base" rows="3" placeholder="Add some details..." {...register('notes')} />
             </div>
 
-            <div className="form-group" style={{ gridColumn: 'span 2' }}>
+            <div className="form-group col-span-2">
               <label className="flex-between glass-panel" style={{ padding: '1rem', borderRadius: '8px', cursor: 'pointer', margin: 0 }}>
                 <span>Mark as Recurring</span>
                 <input type="checkbox" style={{ width: '20px', height: '20px' }} {...register('recurring')} />
