@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { v4 as uuidv4 } from 'uuid';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import useTransactions from '../hooks/useTransactions';
 
@@ -20,12 +20,17 @@ const schema = yup.object({
 const categories = ['Food', 'Travel', 'Rent', 'Shopping', 'Entertainment', 'Health', 'Utilities', 'Subscriptions', 'Salary', 'Other'];
 
 const AddTransaction = () => {
-  const { addTransaction } = useTransactions();
+  const { addTransaction, updateTransaction } = useTransactions();
   const navigate = useNavigate();
+  const location = useLocation();
+  const editTransaction = location.state?.editTransaction || null;
 
   const { register, handleSubmit, formState: { errors, isSubmitting }, watch } = useForm({
     resolver: yupResolver(schema),
-    defaultValues: {
+    defaultValues: editTransaction ? {
+      ...editTransaction,
+      date: editTransaction.date.split('T')[0]
+    } : {
       type: 'expense',
       date: new Date().toISOString().split('T')[0],
       recurring: false
@@ -36,23 +41,30 @@ const AddTransaction = () => {
 
   const onSubmit = (data) => {
     try {
-      const newTransaction = {
-        ...data,
-        id: uuidv4(),
-        date: data.date.toISOString() // Transform date object to ISO string
-      };
-      
-      addTransaction(newTransaction);
-      toast.success('Transaction added successfully!');
+      if (editTransaction) {
+        updateTransaction(editTransaction.id, {
+          ...data,
+          date: new Date(data.date).toISOString()
+        });
+        toast.success('Transaction updated successfully!');
+      } else {
+        const newTransaction = {
+          ...data,
+          id: uuidv4(),
+          date: new Date(data.date).toISOString() 
+        };
+        addTransaction(newTransaction);
+        toast.success('Transaction added successfully!');
+      }
       navigate('/transactions');
     } catch (error) {
-      toast.error('Failed to add transaction.');
+      toast.error('Failed to save transaction.');
     }
   };
 
   return (
     <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}>
-      <h1>Add Transaction</h1>
+      <h1>{editTransaction ? 'Edit Transaction' : 'Add Transaction'}</h1>
       
       <div className="card" style={{ maxWidth: '600px', margin: '0 auto' }}>
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -116,7 +128,7 @@ const AddTransaction = () => {
           <div className="mt-4 flex-between">
             <button type="button" className="btn btn-outline" onClick={() => navigate(-1)}>Cancel</button>
             <button type="submit" className="btn btn-primary" disabled={isSubmitting}>
-              Save Transaction
+              {editTransaction ? 'Update Transaction' : 'Save Transaction'}
             </button>
           </div>
 

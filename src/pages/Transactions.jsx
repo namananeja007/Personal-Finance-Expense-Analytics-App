@@ -1,12 +1,13 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { MdAdd, MdFileDownload, MdRefresh } from 'react-icons/md';
 import TransactionCard from '../components/TransactionCard';
 import useTransactions from '../hooks/useTransactions';
 import useDebounce from '../hooks/useDebounce';
 
 const Transactions = () => {
+  const navigate = useNavigate();
   const [search, setSearch] = useState('');
   const [typeFilter, setTypeFilter] = useState('all');
   const [categoryFilter, setCategoryFilter] = useState('all');
@@ -23,6 +24,10 @@ const Transactions = () => {
     setTypeFilter('all');
     setCategoryFilter('all');
     setSortBy('date');
+  };
+
+  const handleEdit = (transaction) => {
+    navigate('/transactions/new', { state: { editTransaction: transaction } });
   };
 
   const exportToCSV = () => {
@@ -113,7 +118,7 @@ const Transactions = () => {
               <TransactionCard 
                 key={t.id} 
                 transaction={t} 
-                onEdit={() => {}} // Could link to edit route if needed
+                onEdit={handleEdit}
                 onDelete={deleteTransaction} 
               />
             ))

@@ -84,7 +84,6 @@ export const TrendLineChart = ({ transactions }) => {
   const data = useMemo(() => {
     // Group by date to show trend
     const expenses = transactions.filter(t => t.type === 'expense');
-    
     // Sort by date
     const sorted = [...expenses].sort((a, b) => new Date(a.date) - new Date(b.date));
     

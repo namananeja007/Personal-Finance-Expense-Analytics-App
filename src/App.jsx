@@ -3,6 +3,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import Layout from './components/Layout';
+import SplashCursor from './components/ui/SplashCursor';
 import Dashboard from './pages/Dashboard';
 import Transactions from './pages/Transactions';
 import AddTransaction from './pages/AddTransaction';
@@ -22,6 +23,7 @@ function App() {
           <Route path="analytics" element={<Analytics />} />
         </Route>
       </Routes>
+      <SplashCursor />
       <ToastContainer position="bottom-right" theme="dark" />
     </BrowserRouter>
   );
